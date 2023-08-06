@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useState } from "react";
+import InputText from "./InputText";
+import ListItem from "./ListItem";
 
-function App() {
+export default function App() {
+  const [items, setItems] = useState("");
+  const [listItem, setListItem] = useState([]);
+
+  function typeInput(e) {
+    setItems(e.target.value);
+  }
+
+  const addListItem = () => {
+    setListItem([...listItem, items]);
+    setItems("");
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <InputText text={typeInput} />
+      <button onClick={addListItem}>Add</button>
+      <div>
+        <ul>
+          {listItem.map((addedItem, index) => (
+            <ListItem listItem={addedItem} key={index} id={index} />
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
-
-export default App;
